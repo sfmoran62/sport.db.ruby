@@ -6,8 +6,8 @@
 module SportDbCli    # todo/check - rename to SportDbTool or SportDbCommands or SportDbShell ??
 
   MAJOR = 1 ## todo: namespace inside version or something - why? why not??
-  MINOR = 10
-  PATCH = 2
+  MINOR = 11
+  PATCH = 0
   VERSION = [MAJOR,MINOR,PATCH].join('.')
 
   def self.version

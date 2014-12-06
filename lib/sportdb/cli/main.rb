@@ -39,7 +39,7 @@ module SportDb
 
 
 logger = LogUtils::Logger.root
-opts   = WorldDb::Opts.new 
+opts   = SportDb::Opts.new 
 
 
 program_desc 'sport.db command line tool'
