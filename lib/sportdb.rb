@@ -14,17 +14,14 @@ require 'gli'
 # our own code
 
 require 'sportdb/cli/version'    # let version always go first
-
-# additional for cli only
 require 'sportdb/cli/opts'
-
+require 'sportdb/cli/main'
 
 
 module SportDb
 
   def self.main
-    ## Runner.new.run(ARGV) - old code
-    require 'sportdb/cli/main'
+    Tool.new.run(ARGV)
   end
 
 end  # module SportDb
@@ -42,4 +39,3 @@ require 'sportdb/service'
 
 
 SportDb.main   if __FILE__ == $0
-

@@ -7,3 +7,4 @@ lib/sportdb.rb
 lib/sportdb/cli/main.rb
 lib/sportdb/cli/opts.rb
 lib/sportdb/cli/version.rb
+lib/sportdb/console.rb

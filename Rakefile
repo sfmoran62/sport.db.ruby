@@ -20,14 +20,13 @@ Hoe.spec 'sportdb' do
   self.history_file = 'HISTORY.md'
 
   self.extra_deps = [
-    ['sportdb-models', '>= 1.10.0'],
+    ['sportdb-models', '>= 1.10.1'],
 
     ['fetcher', '>= 0.4.4'],    ## check if included already in datafil ??
     ['datafile', '>= 0.1.1'],
 
     ### sportdb addons
     ## ['sportdb-keys'],
-    ## ['sportdb-console'],
     ['sportdb-update'],
     ['sportdb-service'],
 

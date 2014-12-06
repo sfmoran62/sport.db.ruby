@@ -1,24 +1,50 @@
 # encoding: utf-8
 
-##############
-# nb: for local testing use:
-#    
-#  ruby -I ../../github/sport.db.ruby/lib
-#        ../../github/sport.db.ruby/lib/sportdb.rb
-#        setup --delete --sport
-#        --include ../../github/football.db
+### NOTE: wrap gli config into a class
+##  see github.com/davetron5000/gli/issues/153
 
- 
-include GLI::App
+
+module SportDb
+
+  class Tool
+     def initialize
+       LogUtils::Logger.root.level = :info   # set logging level to info 
+     end
+
+     def run( args )
+       puts SportDbCli.banner
+       Toolii.run( args )
+     end
+  end
+
+
+  class Toolii
+    extend GLI::App
+
+   def self.logger=(value) @@logger=value; end
+   def self.logger()       @@logger; end
+
+   ## todo: find a better name e.g. change to settings? config? safe_opts? why? why not?
+   def self.opts=(value)  @@opts = value; end
+   def self.opts()        @@opts; end
+
+   def self.connect_to_db( options )
+     puts "working directory: #{Dir.pwd}"
+
+     SportDb.connect( adapter: 'sqlite3',
+                      database: "#{options.db_path}/#{options.db_name}" )
+
+     LogDb.setup  # start logging to db (that is, save logs in logs table in db)
+   end
+
+
+logger = LogUtils::Logger.root
+opts   = WorldDb::Opts.new 
 
 
 program_desc 'sport.db command line tool'
 
 version SportDbCli::VERSION
-
-
-LogUtils::Logger.root.level = :info   # set logging level to info 
-logger = LogUtils::Logger.root
 
 
 =begin
@@ -36,9 +62,6 @@ Further information:
   http://geraldb.github.com/sport.db
 =end
 
-
-## todo: find a better name e.g. change to settings? config? safe_opts? why? why not?
-opts = SportDb::Opts.new
 
 ### global option (required)
 ## todo: add check that path is valid?? possible?
@@ -60,18 +83,6 @@ switch [:verbose], negatable: false    ## todo: use -w for short form? check rub
 desc 'Only show warnings, errors and fatal messages'
 switch [:q, :quiet], negatable: false
 
-
-
-def connect_to_db( options )
-  puts SportDbCli.banner
-
-  puts "working directory: #{Dir.pwd}"
-
-  SportDb.connect( adapter: 'sqlite3',
-                   database: "#{options.db_path}/#{options.db_name}" )
-
-  LogDb.setup  # start logging to db (that is, save logs in logs table in db)
-end
 
 
 desc 'Create DB schema'
@@ -413,4 +424,7 @@ on_error do |e|
 end
 
 
-exit run(ARGV)
+### exit run(ARGV)  ## note: use Toolii.run( ARGV ) outside of class
+
+  end  # class Toolii
+end  # module SportDb
